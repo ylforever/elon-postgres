@@ -1,0 +1,11 @@
+server:
+ context-path: /postgres
+ port: 9527
+
+spring:
+ datasource:
+  postgres:
+   url: jdbc:postgresql://127.0.0.1:5432/postgres
+   username: postgres
+   password: postgres
+   driver-class-name: org.postgresql.Driver

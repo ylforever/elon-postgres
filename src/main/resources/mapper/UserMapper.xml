@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.postgres.mapper.UserMapper">
+    <insert id="insertUserV1" useGeneratedKeys="true" keyProperty="user.id" keyColumn="id">
+        INSERT INTO t_user (name)
+        VALUES (#{user.name})
+    </insert>
+
+    <insert id="insertUserV2" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO t_user (name)
+        VALUES (#{name})
+    </insert>
+
+    <insert id="insertUserV3"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO t_user (name)
+        VALUES
+        <foreach item="item" collection="list" separator=",">
+            (#{item.name})
+        </foreach>
+    </insert>
+</mapper>
