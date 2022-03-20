@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 @Order(9999)
 public class SchemaAspect {
     @Pointcut("@annotation(org.springframework.web.bind.annotation.GetMapping) "
-            + "|| @annotation(org.springframework.web.bind.annotation.PostMapping)"
-            + "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping)"
+            + "|| @annotation(org.springframework.web.bind.annotation.PostMapping) "
+            + "|| @annotation(org.springframework.web.bind.annotation.DeleteMapping) "
             + "|| @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     void schema() {
 

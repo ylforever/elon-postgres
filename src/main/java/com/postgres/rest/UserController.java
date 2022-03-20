@@ -2,6 +2,7 @@ package com.postgres.rest;
 
 import com.postgres.manager.SchemaHolder;
 import com.postgres.mapper.UserMapper;
+import com.postgres.model.ExamResult;
 import com.postgres.model.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -34,32 +35,22 @@ public class UserController {
     @GetMapping("/user-from-schema")
     @ApiOperation(value = "从schema获取user数据")
     public List<User> getUserFromSchema(@RequestParam("name") String name) {
-        try {
-            return userMapper.getUserFromSchema(name);
-        } catch (Exception e) {
-            LOGGER.error("Invoke getUserFromSchema exception.", e);
-        } finally {
-            SchemaHolder.clear();
-        }
-
-        return Collections.emptyList();
+        return userMapper.getUserFromSchema(name);
     }
 
     @PostMapping("/insert-users-to-schema")
     @ApiOperation(value = "插入用户数据到schema")
     public List<Integer> insertUser2Schema(@RequestBody List<User> userList) {
-        try {
-            userMapper.insertUser2Schema(userList);
-            List<Integer> ids = new ArrayList<>();
-            userList.forEach((user) -> ids.add(user.getId()));
-            return ids;
-        } catch (Exception e) {
-            LOGGER.error("Invoke insertUser2Schema exception.", e);
-        } finally {
-            SchemaHolder.clear();
-        }
+        userMapper.insertUser2Schema(userList);
+        List<Integer> ids = new ArrayList<>();
+        userList.forEach((user) -> ids.add(user.getId()));
+        return ids;
+    }
 
-        return Collections.emptyList();
+    @GetMapping("/exam-result")
+    @ApiOperation(value = "获取检测结果")
+    public List<ExamResult> getExamResult() {
+        return userMapper.getExamResult();
     }
 }
 

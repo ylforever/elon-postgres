@@ -1,6 +1,7 @@
 package com.postgres.mapper;
 
 import com.postgres.manager.SchemaInterceptAnnotation;
+import com.postgres.model.ExamResult;
 import com.postgres.model.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -15,7 +16,7 @@ public interface UserMapper {
      *
      * @return user列表
      */
-    List<User> getUserFromSchema (@Param("name") String name);
+    List<User> getUserFromSchema(@Param("name") String name);
 
     /**
      * 插入用户数据到schema
@@ -23,4 +24,11 @@ public interface UserMapper {
      * @param userList 用户列表
      */
     void insertUser2Schema(@Param("list") List<User> userList);
+
+    /**
+     * 获取测试成绩.
+     *
+     * @return 测试成绩列表
+     */
+    List<ExamResult> getExamResult();
 }
