@@ -1,11 +1,12 @@
 server:
- context-path: /postgres
+ servlet:
+  context-path: /elon-postgres
  port: 9527
 
 spring:
  datasource:
-  postgres:
-   url: jdbc:postgresql://127.0.0.1:5432/postgres
-   username: postgres
-   password: postgres
+  yzy007:
    driver-class-name: org.postgresql.Driver
+   jdbcUrl: jdbc:postgresql://127.0.0.1:5432/yzy007
+   username: postgres
+   password: root

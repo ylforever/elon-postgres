@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.postgres.mapper.UserMapper">
-    <insert id="insertUserV1" useGeneratedKeys="true" keyProperty="user.id" keyColumn="id">
-        INSERT INTO t_user (name)
-        VALUES (#{user.name})
-    </insert>
+    <resultMap id="userResult" type="com.postgres.model.User">
+        <id property="id"           column="id"/>
+        <result property="name"     column="name"/>
+        <result property="age"      column="age"/>
+    </resultMap>
 
-    <insert id="insertUserV2" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO t_user (name)
-        VALUES (#{name})
-    </insert>
+    <!--从schema获取user数据-->
+    <select id="getUserFromSchema" resultMap="userResult">
+        SELECT id, name, age
+        FROM t_user
+        WHERE name = #{name}
+    </select>
 
-    <insert id="insertUserV3"  useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-        INSERT INTO t_user (name)
+    <!--插入用户数据到schema-->
+    <insert id="insertUser2Schema" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO t_user (name, age)
         VALUES
-        <foreach item="item" collection="list" separator=",">
-            (#{item.name})
+        <foreach item="user" collection="list" separator=",">
+            (#{user.name},
+            #{user.age})
         </foreach>
     </insert>
+
 </mapper>
