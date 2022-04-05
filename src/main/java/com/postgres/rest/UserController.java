@@ -1,5 +1,6 @@
 package com.postgres.rest;
 
+import com.alibaba.fastjson.JSONObject;
 import com.postgres.manager.SchemaHolder;
 import com.postgres.mapper.UserMapper;
 import com.postgres.model.ExamResult;
@@ -19,6 +20,7 @@ import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户接口类
@@ -35,7 +37,11 @@ public class UserController {
     @GetMapping("/user-from-schema")
     @ApiOperation(value = "从schema获取user数据")
     public List<User> getUserFromSchema(@RequestParam("name") String name) {
-        return userMapper.getUserFromSchema(name);
+        List<User> userList = userMapper.getUserFromSchema(name);
+        Map<String, Object> dataMap = userList.get(0).toMetaDataList();
+        User user1 = new User();
+        user1.fillByMetaData(dataMap);
+        return userList;
     }
 
     @PostMapping("/insert-users-to-schema")

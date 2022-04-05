@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * @author elon
  * @since 2022-03-20
  */
-@Target({ElementType.TYPE, ElementType.PARAMETER})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface SchemaInterceptAnnotation {
     /**
