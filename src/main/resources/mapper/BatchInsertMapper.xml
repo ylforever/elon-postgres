@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.postgres.mapper.BatchInsertMapper">
+    <insert id="insertData" useGeneratedKeys="true" keyProperty="data.id" keyColumn="id">
+        INSERT INTO t_batch_data (
+            column1,
+            column2,
+            column3,
+            column4,
+            column5,
+            column6,
+            column7,
+            column8,
+            column9,
+            column10
+        ) VALUES (
+            #{data.column1},
+            #{data.column2},
+            #{data.column3},
+            #{data.column4},
+            #{data.column5},
+            #{data.column6},
+            #{data.column7},
+            #{data.column8},
+            #{data.column9},
+            #{data.column10}
+        )
+    </insert>
+
+    <insert id="insertDataList" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT INTO t_batch_data (
+            column1,
+            column2,
+            column3,
+            column4,
+            column5,
+            column6,
+            column7,
+            column8,
+            column9,
+            column10
+        ) VALUES
+        <foreach item="data" collection="list" separator=",">
+            (
+                #{data.column1},
+                #{data.column2},
+                #{data.column3},
+                #{data.column4},
+                #{data.column5},
+                #{data.column6},
+                #{data.column7},
+                #{data.column8},
+                #{data.column9},
+                #{data.column10}
+            )
+        </foreach>
+    </insert>
+
+</mapper>

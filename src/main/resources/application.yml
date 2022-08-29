@@ -3,6 +3,12 @@ server:
   context-path: /elon-postgres
  port: 9527
 
+logging:
+ level:
+  com:
+   postgres:
+    mapper: debug
+
 spring:
  datasource:
   yzy007:
