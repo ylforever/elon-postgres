@@ -41,4 +41,16 @@
         FROM t_user INNER JOIN t_exam_result ON t_user.name = t_exam_result.name
     </select>
 
+    <select id="getUserByAny" resultMap="userResult">
+        SELECT id, name, age
+        FROM t_user
+        WHERE ${column} = any(#{valueList, typeHandler=com.postgres.constant.ElonArrayTypeHandler});
+    </select>
+
+    <select id="getUserByNotAll" resultMap="userResult">
+        SELECT id, name, age
+        FROM t_user
+        WHERE ${column} != all(#{valueList, typeHandler=com.postgres.constant.ElonArrayTypeHandler});
+    </select>
+
 </mapper>

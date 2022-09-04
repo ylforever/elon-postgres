@@ -61,7 +61,7 @@ public class BatchInsertController {
         List<BatchData> dataList = buildDataList(amount);
 
         // 大数据分批处理入库
-        List<List<BatchData>> dataGroup = ListUtil.splitList(dataList, 200);
+        List<List<BatchData>> dataGroup = ListUtil.splitList(dataList, 2000000);
         for (List<BatchData> group : dataGroup) {
             batchInsertMapper.insertDataList(group);
         }

@@ -1,7 +1,6 @@
 package com.postgres.rest;
 
-import com.alibaba.fastjson.JSONObject;
-import com.postgres.manager.SchemaHolder;
+import com.postgres.constant.EnumPGDBDataType;
 import com.postgres.mapper.UserMapper;
 import com.postgres.model.ExamResult;
 import com.postgres.model.User;
@@ -10,6 +9,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,6 +57,51 @@ public class UserController {
     @ApiOperation(value = "获取检测结果")
     public List<ExamResult> getExamResult() {
         return userMapper.getExamResult();
+    }
+
+    @PostMapping("/get-user-by-any/{column}/{dataType}")
+    @ApiOperation(value = "用Any条件代替IN")
+    public List<User> getUserByAny(@PathVariable("column") String column,
+                                   @PathVariable("dataType") EnumPGDBDataType dataType,
+                                   @RequestBody List<Object> valueList) {
+        if (dataType == EnumPGDBDataType.TEXT) {
+            List<String> values = transformDataType(dataType, valueList);
+            return userMapper.getUserByAny(column, values);
+        } else if (dataType == EnumPGDBDataType.INTEGER) {
+            List<Integer> values = transformDataType(dataType, valueList);
+            return userMapper.getUserByAny(column, values);
+        } else if (dataType == EnumPGDBDataType.DOUBLE) {
+            List<Double> values = transformDataType(dataType, valueList);
+            return userMapper.getUserByAny(column, values);
+        }
+
+        return Collections.emptyList();
+    }
+
+    @PostMapping("/get-user-by-all/{column}/{dataType}")
+    @ApiOperation(value = "用all代替not in")
+    public List<User> getUserByNotAll(@PathVariable("column") String column,
+                                      @PathVariable("dataType") EnumPGDBDataType dataType,
+                                      @RequestBody List<Integer> ageList) {
+        return userMapper.getUserByNotAll(column, ageList);
+    }
+
+    private <T> List<T> transformDataType(EnumPGDBDataType dataType, List<Object> valueList) {
+        if (dataType == EnumPGDBDataType.TEXT) {
+            List<String> values = new ArrayList<>();
+            valueList.forEach((value)->values.add(String.valueOf(value)));
+            return (List<T>) values;
+        } else if (dataType == EnumPGDBDataType.INTEGER) {
+            List<Integer> values = new ArrayList<>();
+            valueList.forEach((value)->values.add(Integer.parseInt(String.valueOf(value))));
+            return (List<T>) values;
+        } else if (dataType == EnumPGDBDataType.DOUBLE) {
+            List<Double> values = new ArrayList<>();
+            valueList.forEach((value)->values.add(Double.parseDouble(String.valueOf(value))));
+            return (List<T>) values;
+        }
+
+        return Collections.emptyList();
     }
 }
 
